@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WeatherApp.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="WeatherAppModelsStoreContainer">
+    <EntitySet Name="Forecast" EntityType="WeatherApp.Models.Store.Forecast" store:Type="Tables" Schema="appSchema" />
+    <EntitySet Name="Location" EntityType="WeatherApp.Models.Store.Location" store:Type="Tables" Schema="appSchema" />
+    <AssociationSet Name="FK_Forecast_Location" Association="WeatherApp.Models.Store.FK_Forecast_Location">
+      <End Role="Location" EntitySet="Location" />
+      <End Role="Forecast" EntitySet="Forecast" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Forecast">
+    <Key>
+      <PropertyRef Name="ForecastId" />
+    </Key>
+    <Property Name="ForecastId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TimePeriod" Type="char" Nullable="false" MaxLength="1" />
+    <Property Name="SymbolVar" Type="varchar" Nullable="false" MaxLength="5" />
+    <Property Name="Temperature" Type="varchar" Nullable="false" MaxLength="5" />
+    <Property Name="NextUpdate" Type="datetime" Nullable="false" />
+    <Property Name="LocationId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="LocationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="GeonameId" Type="varchar" MaxLength="20" />
+    <Property Name="Country" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="County" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="City" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="CitySearch" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="NextUpdate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Forecast_Location">
+    <End Role="Location" Type="WeatherApp.Models.Store.Location" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Forecast" Type="WeatherApp.Models.Store.Forecast" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Forecast">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="usp_DeleteForecast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+    <Parameter Name="ForecastId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_DeleteLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+    <Parameter Name="LocationId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_InsertForecast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+    <Parameter Name="TimePeriod" Type="char" Mode="In" />
+    <Parameter Name="SymbolVar" Type="varchar" Mode="In" />
+    <Parameter Name="Temperature" Type="varchar" Mode="In" />
+    <Parameter Name="NextUpdate" Type="datetime" Mode="In" />
+    <Parameter Name="LocationId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_InsertLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+    <Parameter Name="GeonameId" Type="varchar" Mode="In" />
+    <Parameter Name="Country" Type="varchar" Mode="In" />
+    <Parameter Name="County" Type="varchar" Mode="In" />
+    <Parameter Name="City" Type="varchar" Mode="In" />
+    <Parameter Name="CitySearch" Type="varchar" Mode="In" />
+    <Parameter Name="NextUpdate" Type="datetime" Mode="In" />
+  </Function>
+</Schema>

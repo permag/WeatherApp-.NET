@@ -1,0 +1,134 @@
+﻿body
+{
+    font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header,
+footer,
+nav,
+section {
+    display: block;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+
+/* CUSTOM */
+
+.forecastDayCol 
+{
+    display: block;
+    float: left;
+    width: 120px;
+    height: 190px;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid gray;
+    background: white;
+}
+.forecastTemp 
+{
+    font-size: 29px;
+    font-weight: bold;
+}
+.forecastTemp:after {
+    content: " °C";
+}
+.container {
+    margin-left: 50px;
+    width: 650px !important;
+}
+.backHome {
+    display: block;
+    clear: both;
+    margin-top: 20px;
+}
+.searchDiv {
+    float: left;
+    display: block;
+    clear: both;
+    width: 620px;
+    text-align: center;
+}
+label {
+    margin-right: 9px;
+    font-weight: bold !important;
+}
+input {
+    margin-right: 9px !important;
+}
+.btn {
+    margin-top: 8px !important;
+}
+#locations {
+    padding-top: 50px;
+    display: block;
+}
+#locations li {
+    font-size: 16px;
+}
+.editor-field input {
+    font-size: 18px;
+}

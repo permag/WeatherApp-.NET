@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WeatherApp.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="WeatherAppModelsStoreContainer">
+          <EntitySet Name="Forecast" EntityType="WeatherApp.Models.Store.Forecast" store:Type="Tables" Schema="appSchema" />
+          <EntitySet Name="Location" EntityType="WeatherApp.Models.Store.Location" store:Type="Tables" Schema="appSchema" />
+          <AssociationSet Name="FK_Forecast_Location" Association="WeatherApp.Models.Store.FK_Forecast_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Forecast" EntitySet="Forecast" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Forecast">
+          <Key>
+            <PropertyRef Name="ForecastId" />
+          </Key>
+          <Property Name="ForecastId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TimePeriod" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="SymbolVar" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="Temperature" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="NextUpdate" Type="datetime" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GeonameId" Type="varchar" MaxLength="20" />
+          <Property Name="Country" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="County" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="City" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CitySearch" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="NextUpdate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Forecast_Location">
+          <End Role="Location" Type="WeatherApp.Models.Store.Location" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Forecast" Type="WeatherApp.Models.Store.Forecast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Forecast">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_DeleteForecast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+          <Parameter Name="ForecastId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_DeleteLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_InsertForecast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+          <Parameter Name="TimePeriod" Type="char" Mode="In" />
+          <Parameter Name="SymbolVar" Type="varchar" Mode="In" />
+          <Parameter Name="Temperature" Type="varchar" Mode="In" />
+          <Parameter Name="NextUpdate" Type="datetime" Mode="In" />
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_InsertLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="appSchema">
+          <Parameter Name="GeonameId" Type="varchar" Mode="In" />
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="County" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="CitySearch" Type="varchar" Mode="In" />
+          <Parameter Name="NextUpdate" Type="datetime" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WeatherApp.Models" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WeatherApp_Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Forecasts" EntityType="WeatherApp.Models.Forecast" />
+          <EntitySet Name="Locations" EntityType="WeatherApp.Models.Location" />
+          <AssociationSet Name="FK_Forecast_Location" Association="WeatherApp.Models.FK_Forecast_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Forecast" EntitySet="Forecasts" />
+          </AssociationSet>
+          <FunctionImport Name="usp_DeleteForecast">
+          <Parameter Name="ForecastId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DeleteLocation">
+          <Parameter Name="LocationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertForecast">
+            <Parameter Name="TimePeriod" Mode="In" Type="String" />
+            <Parameter Name="SymbolVar" Mode="In" Type="String" />
+            <Parameter Name="Temperature" Mode="In" Type="String" />
+            <Parameter Name="NextUpdate" Mode="In" Type="DateTime" />
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertLocation">
+            <Parameter Name="GeonameId" Mode="In" Type="String" />
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="County" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="CitySearch" Mode="In" Type="String" />
+            <Parameter Name="NextUpdate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Forecast">
+          <Key>
+            <PropertyRef Name="ForecastId" />
+          </Key>
+          <Property Name="ForecastId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TimePeriod" Type="String" MaxLength="1" Unicode="false" FixedLength="true" Nullable="false" />
+          <Property Name="SymbolVar" Type="String" MaxLength="5" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="Temperature" Type="String" MaxLength="5" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="WeatherApp.Models.FK_Forecast_Location" FromRole="Forecast" ToRole="Location" />
+          <Property Type="DateTime" Name="NextUpdate" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="LocationId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="GeonameId" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="County" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CitySearch" Type="String" MaxLength="50" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="NextUpdate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="None" Nullable="false" />
+          <NavigationProperty Name="Forecasts" Relationship="WeatherApp.Models.FK_Forecast_Location" FromRole="Location" ToRole="Forecast" />
+        </EntityType>
+        <Association Name="FK_Forecast_Location">
+          <End Role="Location" Type="WeatherApp.Models.Location" Multiplicity="1" />
+          <End Role="Forecast" Type="WeatherApp.Models.Forecast" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Forecast">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WeatherAppModelsStoreContainer" CdmEntityContainer="WeatherApp_Entities">
+          <EntitySetMapping Name="Forecasts">
+            <EntityTypeMapping TypeName="WeatherApp.Models.Forecast">
+              <MappingFragment StoreEntitySet="Forecast">
+                <ScalarProperty Name="NextUpdate" ColumnName="NextUpdate" />
+                <ScalarProperty Name="ForecastId" ColumnName="ForecastId" />
+                <ScalarProperty Name="TimePeriod" ColumnName="TimePeriod" />
+                <ScalarProperty Name="SymbolVar" ColumnName="SymbolVar" />
+                <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="WeatherApp.Models.Forecast">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="WeatherApp.Models.Store.usp_InsertForecast">
+                  <ScalarProperty Name="NextUpdate" ParameterName="NextUpdate" />
+                  <ScalarProperty Name="LocationId" ParameterName="LocationId" />
+                  <ScalarProperty Name="Temperature" ParameterName="Temperature" />
+                  <ScalarProperty Name="SymbolVar" ParameterName="SymbolVar" />
+                  <ScalarProperty Name="TimePeriod" ParameterName="TimePeriod" />
+                  <ResultBinding Name="ForecastId" ColumnName="NewForecastId" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="WeatherApp.Models.Store.usp_DeleteForecast">
+                  <ScalarProperty Name="ForecastId" ParameterName="ForecastId" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="WeatherApp.Models.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="GeonameId" ColumnName="GeonameId" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CitySearch" ColumnName="CitySearch" />
+                <ScalarProperty Name="NextUpdate" ColumnName="NextUpdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="WeatherApp.Models.Location">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="WeatherApp.Models.Store.usp_InsertLocation">
+                  <ScalarProperty Name="NextUpdate" ParameterName="NextUpdate" />
+                  <ScalarProperty Name="CitySearch" ParameterName="CitySearch" />
+                  <ScalarProperty Name="City" ParameterName="City" />
+                  <ScalarProperty Name="County" ParameterName="County" />
+                  <ScalarProperty Name="Country" ParameterName="Country" />
+                  <ScalarProperty Name="GeonameId" ParameterName="GeonameId" />
+                  <ResultBinding Name="LocationId" ColumnName="NewLocationId" />
+                </InsertFunction>
+                <DeleteFunction FunctionName="WeatherApp.Models.Store.usp_DeleteLocation">
+                  <ScalarProperty Name="LocationId" ParameterName="LocationId" />
+                </DeleteFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_DeleteForecast" FunctionName="WeatherApp.Models.Store.usp_DeleteForecast" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteLocation" FunctionName="WeatherApp.Models.Store.usp_DeleteLocation" />
+          <FunctionImportMapping FunctionImportName="usp_InsertForecast" FunctionName="WeatherApp.Models.Store.usp_InsertForecast" />
+          <FunctionImportMapping FunctionImportName="usp_InsertLocation" FunctionName="WeatherApp.Models.Store.usp_InsertLocation" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

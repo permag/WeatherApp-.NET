@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WeatherApp.Models" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="WeatherApp_Entities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Forecasts" EntityType="WeatherApp.Models.Forecast" />
+    <EntitySet Name="Locations" EntityType="WeatherApp.Models.Location" />
+    <AssociationSet Name="FK_Forecast_Location" Association="WeatherApp.Models.FK_Forecast_Location">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="Forecast" EntitySet="Forecasts" />
+    </AssociationSet>
+    <FunctionImport Name="usp_DeleteForecast">
+      <Parameter Name="ForecastId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_DeleteLocation">
+      <Parameter Name="LocationId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_InsertForecast">
+      <Parameter Name="TimePeriod" Mode="In" Type="String" />
+      <Parameter Name="SymbolVar" Mode="In" Type="String" />
+      <Parameter Name="Temperature" Mode="In" Type="String" />
+      <Parameter Name="NextUpdate" Mode="In" Type="DateTime" />
+      <Parameter Name="LocationId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_InsertLocation">
+      <Parameter Name="GeonameId" Mode="In" Type="String" />
+      <Parameter Name="Country" Mode="In" Type="String" />
+      <Parameter Name="County" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="CitySearch" Mode="In" Type="String" />
+      <Parameter Name="NextUpdate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Forecast">
+    <Key>
+      <PropertyRef Name="ForecastId" />
+    </Key>
+    <Property Name="ForecastId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="TimePeriod" Type="String" MaxLength="1" Unicode="false" FixedLength="true" Nullable="false" />
+    <Property Name="SymbolVar" Type="String" MaxLength="5" Unicode="false" FixedLength="false" Nullable="false" />
+    <Property Name="Temperature" Type="String" MaxLength="5" Unicode="false" FixedLength="false" Nullable="false" />
+    <Property Name="LocationId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Location" Relationship="WeatherApp.Models.FK_Forecast_Location" FromRole="Forecast" ToRole="Location" />
+    <Property Type="DateTime" Name="NextUpdate" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Name="LocationId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="GeonameId" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="Country" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="County" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" annotation:StoreGeneratedPattern="None" />
+    <Property Name="City" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="CitySearch" Type="String" MaxLength="50" Unicode="false" FixedLength="false" Nullable="false" />
+    <Property Name="NextUpdate" Type="DateTime" Precision="3" annotation:StoreGeneratedPattern="None" Nullable="false" />
+    <NavigationProperty Name="Forecasts" Relationship="WeatherApp.Models.FK_Forecast_Location" FromRole="Location" ToRole="Forecast" />
+  </EntityType>
+  <Association Name="FK_Forecast_Location">
+    <End Role="Location" Type="WeatherApp.Models.Location" Multiplicity="1" />
+    <End Role="Forecast" Type="WeatherApp.Models.Forecast" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Forecast">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

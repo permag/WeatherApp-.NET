@@ -1,0 +1,41 @@
+﻿@model WeatherApp.ViewModels.HomeIndexViewModel
+
+@{
+    ViewBag.Title = "Weather app";
+}
+<h3>Find forecast</h3>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(false, "Error.")
+        <div class="searchDiv">
+            <div class="editor-label pull-left">
+                @Html.LabelFor(model => model.CitySearch)
+            </div>
+            <div class="editor-field pull-left">
+                @Html.TextBoxFor(model => model.CitySearch, new { maxLength = 50, size = 50 })
+            </div>
+
+            <input class="btn pull-left" type="submit" value="Search" />
+        </div>
+}
+
+@if (Model != null && Model.Locations.Any())
+{ 
+    <div id="locations">
+        <h2>Locations matching <strong>"@Model.CitySearch"</strong>.</h2>
+        <ul>
+        @foreach (var location in Model.Locations)
+        {
+            <li><a href="@Url.Content("~/Home/Forecast/?country=")@location.Country&county=@location.County&city=@location.City">@location.City, @location.County, @location.Country</a></li>
+        }
+        </ul>
+    </div>
+}
+else if (Model != null && !Model.Locations.Any() && !String.IsNullOrWhiteSpace(Model.CitySearch))
+{ 
+    <h3>No locations matching <strong>"@Model.CitySearch"</strong> found.</h3>
+}
+<script>
+    $(function () { 
+        $("#CitySearch").focus();
+    });
+</script>

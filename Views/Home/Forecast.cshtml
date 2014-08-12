@@ -1,0 +1,81 @@
+﻿@model WeatherApp.ViewModels.HomeForecastViewModel
+
+@{
+    ViewBag.Title = "Forecast";
+    int nrDay = ViewBag.dayNow;
+    string theDay = "";
+}
+
+@if (Model != null && Model.Forecasts.Any())
+{
+    
+    <h2>Forecast for @Request.QueryString["city"]</h2>
+    
+    foreach (var forecast in Model.Forecasts)
+    {
+        if (nrDay == 1)
+        {
+            theDay = "Monday";
+        }
+        else if (nrDay == 2)
+        {
+            theDay = "Tuesday";
+        }
+        else if (nrDay == 3)
+        {
+            theDay = "Wednesday";
+        }
+        else if (nrDay == 4)
+        {
+            theDay = "Thursday";
+        }
+        else if (nrDay == 5)
+        {
+            theDay = "Friday";
+        }
+        else if (nrDay == 6)
+        {
+            theDay = "Saturday";
+        }
+        else if (nrDay == 7)
+        {
+            theDay = "Sunday";
+        }
+
+        if (nrDay == ViewBag.dayNow)
+        {
+            theDay = "Today";
+        }
+        if (nrDay == ViewBag.dayNow + 1)
+        {
+            theDay = "Tomorrow";
+        }
+        
+        if (forecast.TimePeriod == "2")
+        {
+
+            <div class="forecastDayCol">
+                <p><strong>@theDay</strong></p>
+    
+                <div><img src="@Url.Content("~/Content/icon/")@(forecast.SymbolVar).png" /></div>
+                
+                <div class="forecastTemp">@forecast.Temperature</div>
+            </div>
+                   
+    
+            if (nrDay == 7)
+            {
+                nrDay = 1;
+            }
+            else 
+            {
+                nrDay++;
+            }
+         }
+    }
+}
+else if (Model != null && !Model.Forecasts.Any())
+{
+    <h3>No forecast found.</h3>
+}
+ <div class="pull-left backHome">@Html.ActionLink("Back home", "Index")</div>

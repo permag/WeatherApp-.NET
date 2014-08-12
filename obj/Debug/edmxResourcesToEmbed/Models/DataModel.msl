@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WeatherAppModelsStoreContainer" CdmEntityContainer="WeatherApp_Entities">
+    <EntitySetMapping Name="Forecasts">
+      <EntityTypeMapping TypeName="WeatherApp.Models.Forecast">
+        <MappingFragment StoreEntitySet="Forecast">
+          <ScalarProperty Name="NextUpdate" ColumnName="NextUpdate" />
+          <ScalarProperty Name="ForecastId" ColumnName="ForecastId" />
+          <ScalarProperty Name="TimePeriod" ColumnName="TimePeriod" />
+          <ScalarProperty Name="SymbolVar" ColumnName="SymbolVar" />
+          <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="WeatherApp.Models.Forecast">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="WeatherApp.Models.Store.usp_InsertForecast">
+            <ScalarProperty Name="NextUpdate" ParameterName="NextUpdate" />
+            <ScalarProperty Name="LocationId" ParameterName="LocationId" />
+            <ScalarProperty Name="Temperature" ParameterName="Temperature" />
+            <ScalarProperty Name="SymbolVar" ParameterName="SymbolVar" />
+            <ScalarProperty Name="TimePeriod" ParameterName="TimePeriod" />
+            <ResultBinding Name="ForecastId" ColumnName="NewForecastId" />
+          </InsertFunction>
+          <DeleteFunction FunctionName="WeatherApp.Models.Store.usp_DeleteForecast">
+            <ScalarProperty Name="ForecastId" ParameterName="ForecastId" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="WeatherApp.Models.Location">
+        <MappingFragment StoreEntitySet="Location">
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+          <ScalarProperty Name="GeonameId" ColumnName="GeonameId" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="County" ColumnName="County" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="CitySearch" ColumnName="CitySearch" />
+          <ScalarProperty Name="NextUpdate" ColumnName="NextUpdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="WeatherApp.Models.Location">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="WeatherApp.Models.Store.usp_InsertLocation">
+            <ScalarProperty Name="NextUpdate" ParameterName="NextUpdate" />
+            <ScalarProperty Name="CitySearch" ParameterName="CitySearch" />
+            <ScalarProperty Name="City" ParameterName="City" />
+            <ScalarProperty Name="County" ParameterName="County" />
+            <ScalarProperty Name="Country" ParameterName="Country" />
+            <ScalarProperty Name="GeonameId" ParameterName="GeonameId" />
+            <ResultBinding Name="LocationId" ColumnName="NewLocationId" />
+          </InsertFunction>
+          <DeleteFunction FunctionName="WeatherApp.Models.Store.usp_DeleteLocation">
+            <ScalarProperty Name="LocationId" ParameterName="LocationId" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="usp_DeleteForecast" FunctionName="WeatherApp.Models.Store.usp_DeleteForecast" />
+    <FunctionImportMapping FunctionImportName="usp_DeleteLocation" FunctionName="WeatherApp.Models.Store.usp_DeleteLocation" />
+    <FunctionImportMapping FunctionImportName="usp_InsertForecast" FunctionName="WeatherApp.Models.Store.usp_InsertForecast" />
+    <FunctionImportMapping FunctionImportName="usp_InsertLocation" FunctionName="WeatherApp.Models.Store.usp_InsertLocation" />
+  </EntityContainerMapping>
+</Mapping>
